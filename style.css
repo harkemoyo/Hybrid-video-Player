@@ -1,0 +1,309 @@
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Remove default margin */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+}
+
+/* Set core root defaults */
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+/* Set core body defaults */
+body {
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+  background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%234f4f51' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
+  background-color: #e3e3e3;
+}
+.player{
+    width: 100%;
+    max-width: 1000px;
+    border: 5px solid black;
+    border-radius: 10px;
+    background-color: black;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    margin-inline: auto;
+
+}
+.player.theater,
+.player.full-screen {
+  max-width: initial;
+  width: 100%;
+}
+
+.player.theater {
+  max-height: 96vh;
+}
+
+.player.full-screen {
+  max-height: 100vh;
+}
+video{
+    width: 100%;
+}
+.show_controls{
+    left: 0;
+    right: 0;
+    z-index: 100;
+    position: absolute;
+    bottom: 0;
+    cursor: default;
+    color: #ffff;
+    opacity: 0;
+    transition: opacity 150ms ease-in-out;
+}
+ .player:hover .show_controls,
+ .player:focus-within .show_controls,
+ .player.paused .show_controls {
+    opacity: 1;
+  }
+  .show_controls .controls{
+    display: flex;
+    gap: .5rem;
+    padding: .25rem;
+    align-items: center;
+  }
+  .show_controls .controls button{
+    background: none;
+    border: none;
+    color: inherit;
+    padding: 0;
+    height: 30px;
+    width: 30px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    opacity: .75;
+    
+  }
+  .show_controls .controls button:hover{
+    opacity: 1;
+    filter: brightness(110%);
+  }
+  .show_controls::before{
+    content: "";
+    position: absolute;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, .75), transparent);
+    width: 100%;
+    aspect-ratio: 6 / 1;
+    z-index: -1;
+    pointer-events: none;
+  }
+.player.paused .pause-icon{
+    display: none;
+}
+.player:not(.paused) .play-icon{
+    display: none;
+}
+.player.theater .tall{
+    display: none;
+}
+.player:not(.theater) .wide{
+    display: none;
+}
+.player .full-screen .open{
+    display: none;
+}
+.player:not(.full-screen) .close{
+    display: none;
+}
+.volume-high-icon,
+.volume-low-icon,
+.volume-muted-icon {
+  display: none;
+}
+.player[data-volume-level="high"] .volume-high-icon {
+    display: block;
+  }
+  
+  .player[data-volume-level="low"] .volume-low-icon {
+    display: block;
+  }
+  
+  .player[data-volume-level="muted"] .volume-muted-icon {
+    display: block;
+  }
+  .volume-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .volume-slider {
+    width: 0;
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: width 150ms ease-in-out, transform 150ms ease-in-out;
+  }
+  
+  .volume-container:hover .volume-slider,
+  .volume-slider:focus-within {
+    width: 100px;
+    transform: scaleX(1);
+  }
+  
+  .duration-container {
+    display: flex;
+    align-items: center;
+    gap: .25rem;
+    flex-grow: 1;
+  }
+  .player.captions .captions-btn {
+    border-bottom: 3px solid red;
+  }
+  
+  .show_controls .controls button.wide-btn {
+    width: 50px;
+  }
+  .timeline-container {
+    height: 7px;
+    margin-inline: .5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  .timeline {
+    background-color: rgba(100, 100, 100, .5);
+    height: 3px;
+    width: 100%;
+    position: relative
+  }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: calc(100% - var(--preview-position) * 100%);
+    background-color: rgb(150, 150, 150);
+    display: none;
+  }
+  .timeline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: calc(100% - var(--progress-position) * 100%);
+    background-color: red;
+  }
+  .timeline .thumb-indicator {
+    --scale: 0;
+    position: absolute;
+    transform: translateX(-50%) scale(var(--scale));
+    height: 200%;
+    top: -50%;
+    left: calc(var(--progress-position) * 100%);
+    background-color: red;
+    border-radius: 50%;
+    transition: transform 150ms ease-in-out;
+    aspect-ratio: 1 / 1;
+  }
+  .timeline .preview-img {
+    position: absolute;
+    height: 80px;
+    aspect-ratio: 16 / 9;
+    top: -1rem;
+    transform: translate(-50%, -100%);
+    left: calc(var(--preview-position) * 100%);
+    border-radius: .25rem;
+    border: 2px solid white;
+    display: none;
+  }
+
+.thumbnail-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+.player.scrubbing .thumbnail-img {
+  display: block;
+}
+
+.player.scrubbing .preview-img,
+.timeline-container:hover .preview-img {
+  display: block;
+}
+
+.player.scrubbing .timeline::before,
+.timeline-container:hover .timeline::before {
+  display: block;
+}
+
+.player.scrubbing .thumb-indicator,
+.timeline-container:hover .thumb-indicator {
+  --scale: 1;
+}
+
+.player.scrubbing .timeline,
+.timeline-container:hover .timeline {
+  height: 100%;
+}
+  
+  
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
+/* Make images easier to work with */
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+   scroll-behavior: auto;
+  }
+  
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
