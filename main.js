@@ -69,7 +69,7 @@ function toggleScrubbing(e){
     wasPaused = VideoEl.pause;
     VideoEl.pause;
   }else {
-    VideoEl.currentTime = percent * duration;
+    VideoEl.currentTime = percent * VideoEl.duration;
     if(!wasPaused) VideoEl.play();
   }
   timelineUpdate(e)
