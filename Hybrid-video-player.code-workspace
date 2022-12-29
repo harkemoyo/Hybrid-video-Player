@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"name": "Hybrid-video-player",
+			"path": "."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "Hybrid-video-player"
+	}
+}
