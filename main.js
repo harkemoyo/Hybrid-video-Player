@@ -228,5 +228,5 @@ VideoEl.addEventListener('play', () => {
 playerContainer.classList.remove('paused')
 });
 VideoEl.addEventListener('pause', () => {
-    playerContainer.classList.add('paused')
+    playerContainer.classList.add('play')
     })
