@@ -251,7 +251,7 @@ VideoEl.addEventListener('pause', () => {
           //when people use esc instead of dblclick
       }
     }
-    playerContainer.addEventListener('click', goBig);
+    VideoEl.addEventListener('click', goBig);
       function goBig(ev){
         let element = ev.currentTarget;
             console.dir(element);
@@ -266,7 +266,7 @@ VideoEl.addEventListener('pause', () => {
             }
       }
 
-      playerContainer.addEventListener('dblclick', goHome);
+      VideoEl.addEventListener('dblclick', goHome);
       function goHome(ev){
         let element = ev.target;
         console.log(element)
