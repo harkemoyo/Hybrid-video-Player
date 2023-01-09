@@ -228,5 +228,50 @@ VideoEl.addEventListener('play', () => {
 playerContainer.classList.remove('paused')
 });
 VideoEl.addEventListener('pause', () => {
-    playerContainer.classList.add('play')
+    playerContainer.classList.add('paused')
     })
+
+    let fullscreenchange = (document.onwebkitfullscreenchange)? 'onwebkitfullscreenchange':(document.onfullscreenchange)?
+    'onfullscreenchange': (document.onmozfullscreenchange)?
+    'onmozfullscreenchange': (document.MSFullScreenChange)?
+    'MSFullscreenChange': null;
+    if(fullscreenchange){
+        document[fullscreenchange] = toggleFull;
+    }
+     
+    function toggleFull(ev){
+      let element = document.webkitFullscreenElement;
+      if(element){
+          element.classList.add('big');
+          console.log('big class added')
+      }else{
+          //remove it from the first element with it
+          element = document.querySelector('h1.big, audio.big, video.big');
+          element.classList.remove('big');
+          //when people use esc instead of dblclick
+      }
+    }
+    playerContainer.addEventListener('click', goBig);
+      function goBig(ev){
+        let element = ev.currentTarget;
+            console.dir(element);
+            if(! document.webkitFullscreenElement){
+                if(element.webkitRequestFullscreen){
+                    element.webkitRequestFullscreen();
+                }else{
+                    console.log('element cannot be fullscreened');
+                }
+            }else{
+                console.log(document.webkitFullscreenElement, 'is the full screen element');
+            }
+      }
+
+      playerContainer.addEventListener('dblclick', goHome);
+      function goHome(ev){
+        let element = ev.target;
+        console.log(element)
+        element.classList.remove('big');
+        if( document.webkitFullscreenEnabled){
+            document.webkitExitFullscreen();
+        }   
+      }
